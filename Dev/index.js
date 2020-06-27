@@ -147,6 +147,54 @@ function viewEmployee(){
 // Update roles
 function updateEmployeeRoles(){
 
+    getRoles((roles)=>{
+
+        getEmployees((employees)=>{
+
+            employeeSelections = employees.map(employee =>{
+                return{
+                    name: employee.first_name + ' '+ employee.last_name,
+                    value: employee.id
+                }
+            })
+
+            inquirer.prompt([
+                {
+                    message: "Which employee would you like to update?",
+                    type: "list",
+                    name: "name",
+                    choices: employeeSelections
+                },
+                {
+                    message: "what is the new role of the employee?",
+                    type: "list",
+                    name: "role_id",
+                    choices: roles.map( role =>{
+                        return{
+                            name: role.title,
+                            value: role.id
+                        };
+                    })
+                },
+                {
+                    message:"Who is this employee's manager?",
+                    type: "list",
+                    name: "manager_id",
+                    choices: employeeSelections
+                }
+            ]).then((response)=>{
+                
+                console.log(response);
+
+                connection.query(`UPDATE employee SET role_id = ${response.role_id} WHERE id = ${response.name}`, (err, result)=>{
+                    if (err) throw err;
+
+                    console.log("updated as ID "+ result.insertId);
+                });
+
+            });
+        });
+    });
 }
 
 
@@ -164,4 +212,4 @@ function getEmployees(cb){
     })
 }
 
-addEmployee();
+updateEmployeeRoles();
