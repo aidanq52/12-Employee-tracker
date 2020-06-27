@@ -15,6 +15,7 @@ function addDepartment(){
             if(err) throw err;
 
             console.log("Inserted as ID "+ result.insertID)
+            letsGo();
         })
     })
 }
@@ -58,6 +59,7 @@ function addRole(){
                 if (err) throw err;
 
                 console.log("inserted as ID "+ result.insertId);
+                letsGo();
             })
 
         })
@@ -115,6 +117,7 @@ function addEmployee(){
                     if (err) throw err;
 
                     console.log("inserted as ID "+ result.insertId);
+                    letsGo();
                 });
 
             });
@@ -125,15 +128,17 @@ function addEmployee(){
 
 // view departemnt, roles, employees
 function viewDepartment(){
-    connection.query("SELECT * FROM role", (err, results)=>{
+    connection.query("SELECT * FROM department", (err, results)=>{
         if(err) throw err
         console.table(results)
+        letsGo();
     })
 }
 
 function viewRole(){
     getRoles((roles)=>{
         console.table(roles)
+        letsGo();
     })
 
 }
@@ -141,6 +146,7 @@ function viewRole(){
 function viewEmployee(){
     getEmployees((employees)=>{
         console.table(employees)
+        letsGo();
     })
 }
 
@@ -190,6 +196,8 @@ function updateEmployeeRoles(){
                     if (err) throw err;
 
                     console.log("updated as ID "+ result.insertId);
+
+                    letsGo()
                 });
 
             });
@@ -212,4 +220,56 @@ function getEmployees(cb){
     })
 }
 
-updateEmployeeRoles();
+function letsGo(){
+    inquirer.prompt([
+        {
+            message: "What would you like to do?",
+            type: "list",
+            name: "startingSelection",
+            choices: initationObject
+        }
+    ]).then((response)=>{
+        let i = response.startingSelection
+
+        if(i==0){addDepartment()}
+        else if (i==1) {addRole()}
+        else if (i==2){addEmployee()}
+        else if (i==3){viewDepartment()}
+        else if (i==4){viewRole()}
+        else if (i==5){viewEmployee()}
+        else if (i==6){updateEmployeeRoles()}
+    })
+}
+
+const initationObject = [
+    {
+        name: 'Add a department',
+        value: 0
+    },
+    {
+        name: 'Add a Role or Position for Employees',
+        value: 1
+    },
+    {
+        name: 'Add a new employee',
+        value: 2
+    },    
+    {
+        name: 'View current departments',
+        value: 3
+    },
+    {
+        name: 'View current roles',
+        value: 4
+    },
+    {
+        name: 'View current employees',
+        value: 5
+    },
+    {
+        name: 'Update an employees position',
+        value: 6
+    },
+]
+
+letsGo();
