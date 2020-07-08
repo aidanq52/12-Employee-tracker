@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/aidanq52/12-Employee-tracker/issues"
   },
-  "homepage": "https://github.com/aidanq52/12-Employee-tracker#readme"
+  "homepage": "https://github.com/aidanq52/12-Employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.3.0",
+    "mysql": "^2.18.1"
+  }
 }

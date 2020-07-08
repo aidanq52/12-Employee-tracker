@@ -1,4 +1,4 @@
-const connection = require("./db/connection");
+const connection = require("./config/connection");
 const inquirer = require("inquirer");
 
 // add departemnt, roles, employees
@@ -229,16 +229,16 @@ function letsGo(){
             choices: initationObject
         }
     ]).then((response)=>{
-        let i = response.startingSelection
+        let i = response.startingSelection;
 
         if(i==0){addDepartment()}
-        else if (i==1) {addRole()}
+        else if (i==1){addRole()}
         else if (i==2){addEmployee()}
         else if (i==3){viewDepartment()}
         else if (i==4){viewRole()}
         else if (i==5){viewEmployee()}
         else if (i==6){updateEmployeeRoles()}
-    })
+    });
 }
 
 const initationObject = [
